@@ -225,6 +225,7 @@ module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,h
             linear_extrude(2) regular_polygon(6,hex_size+2*width);
             translate([0,0,1.5]) linear_extrude(1) regular_polygon(6,hex_size);
             put_tilenr(hex);
+<<<<<<< HEAD
             rotate([0,0,60]) translate([0,hex_size-city_size,1]) rotate([0,0,-30]) text_handler(tile_type);
             rotate([0,0,120]) translate([0,hex_size-city_size,1]) rotate([0,0,-90]) text_handler(blocker);
             rotate([0,0,-60]) translate([0,hex_size-city_size,1]) rotate([0,0,90]) text_handler(cost);
@@ -232,6 +233,13 @@ module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,h
                 //put large_station top right, with home_company if available
                 translate([0,hex_size-city_size-width,0]) large_station_circle();
                 translate([0,hex_size-city_size-width,0]) rotate([0,0,30]) text_handler(home_company);
+=======
+            rotate([0,0,60]) translate([0,0.8*hex_size,1]) rotate([0,0,0]) text_handler(tile_type);
+            rotate([0,0,120]) translate([0,0.8*hex_size,1]) rotate([0,0,-60]) text_handler(blocker);
+            rotate([0,0,-60]) translate([0,0.7*hex_size,1]) rotate([0,0,120]) text_handler(cost);
+            if((large_station==2)||((large_station==1)&&(small_station==1))) {
+                //put large_station top right, with home_company if available
+>>>>>>> a58bb20da13c043a2cef44b5f774c3872fe01ace
                 if(large_station==2){
                     // put large station bottom left
                 }
@@ -241,8 +249,11 @@ module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,h
             }
             else if(large_station==1){
                 //put_large station center, with home_company if available
+<<<<<<< HEAD
                 large_station_circle();
                 rotate([0,0,30]) text_handler(home_company);
+=======
+>>>>>>> a58bb20da13c043a2cef44b5f774c3872fe01ace
             }
             else if(small_station==2){
                 // put home_company center if available
