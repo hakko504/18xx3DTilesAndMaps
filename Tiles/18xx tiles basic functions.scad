@@ -204,27 +204,58 @@ module thin_token(name){
     translate([0,0,2]) linear_extrude(1) text(name,token_size/2,"Arial:style=Bold",valign="center",halign="center");
 }
 
+
+module large_station_circle(){
+    difference(){
+        translate([0,0,1]) linear_extrude(1) circle(city_size);
+        translate([0,0,1]) linear_extrude(1) circle(city_size-width);
+    }
+}
 // tile_type - B,NY,C,Y, etc.
 // blocker - if a private blocks the tile, put short name of private here
 // cost - cost to put a tile here
 // large_station - one or two
 // home company - name of company with home station in the tile
 // small_stations - one or two
-module make_map_tile(hex="A01",tile_type="",blocker="",cost="",home_company="",large_station=0,small_stations=0){
+module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,home_company="",small_station=0){
     // move to right place
 //    translate([f(hex),g(hex),0])
         difference(){
             //base hex
-            linear_extrude(2.5) regular_polygon(6,hex_size+2*width);
-            translate([0,0,2]) linear_extrude(1) regular_polygon(6,hex_size);
+            linear_extrude(2) regular_polygon(6,hex_size+2*width);
+            translate([0,0,1.5]) linear_extrude(1) regular_polygon(6,hex_size);
             put_tilenr(hex);
-            rotate([0,0,60]) translate([0,0.8*hex_size,1]) rotate([0,0,0]) text_handler(tile_type);
-            rotate([0,0,120]) translate([0,0.8*hex_size,1]) rotate([0,0,-60]) text_handler(blocker);
-            rotate([0,0,-60]) translate([0,0.7*hex_size,1]) rotate([0,0,120]) text_handler(cost);
+            rotate([0,0,60]) translate([0,hex_size-city_size,1]) rotate([0,0,-30]) text_handler(tile_type);
+            rotate([0,0,120]) translate([0,hex_size-city_size,1]) rotate([0,0,-90]) text_handler(blocker);
+            rotate([0,0,-60]) translate([0,hex_size-city_size,1]) rotate([0,0,90]) text_handler(cost);
+            if((large_station==2)||((large_station==1)&&(small_station==1))) {
+                //put large_station top right, with home_company if available
+                translate([0,hex_size-city_size-width,0]) large_station_circle();
+                translate([0,hex_size-city_size-width,0]) rotate([0,0,30]) text_handler(home_company);
+                if(large_station==2){
+                    // put large station bottom left
+                }
+                else {
+                    // put small station bottom left
+                }
+            }
+            else if(large_station==1){
+                //put_large station center, with home_company if available
+                large_station_circle();
+                rotate([0,0,30]) text_handler(home_company);
+            }
+            else if(small_station==2){
+                // put home_company center if available
+                // put small station top right and bottom left
+            }
+            else if(small_station==1){
+                // put home_company top_left if available
+                // put small station center
+            }
         }
 
 }
-make_map_tile(tile_type="B", blocker="BO",cost="$120");
+make_map_tile(tile_type="B", blocker="BO",cost="$120",large_station=2,home_company="NYNH");
 
 //put_value("100",00);
 //put_tilenr("999");
