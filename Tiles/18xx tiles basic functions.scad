@@ -230,8 +230,8 @@ module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,h
         // move to right place
         y_pos=ord("A") - ord(hex[0]);
         x_pos=10*(ord(hex[1])-ord("0"))+ord(hex[2])-ord("0");
-        echo("y_pos ",y_pos);
-        echo("x_pos ",x_pos);
+//        echo("y_pos ",y_pos);
+//        echo("x_pos ",x_pos);
         translate([x_pos*(hex_size+2*width),1.5*y_pos*(hex_size+2*width)/ sin(angles[1]),0]) rotate([0,0,-30]) union(){ for(r=hex_block){
             p=[outer_coord[r],outer_coord[r+1],inner_coord[r+1],inner_coord[r]];
             linear_extrude(4) polygon(points=p);
@@ -280,9 +280,9 @@ module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,h
         }
     }
 }
-make_map_tile(hex="A01",tile_type="B", blocker="BO",cost="$120",large_station=2,home_company="NYNH",small_station=1,hex_block=[0],hex_open=[5]);
-make_map_tile(hex="A03",tile_type="B", blocker="NYC",cost="$80",large_station=1,home_company="Eire",small_station=1,hex_block=[3],hex_open=[4]);
-make_map_tile(hex="B02",tile_type="B", blocker="PRR",cost="",large_station=0,home_company="C&O",small_station=2,hex_block=[],hex_open=[1,2]);
+//make_map_tile(hex="A01",tile_type="B", blocker="BO",cost="$120",large_station=2,home_company="NYNH",small_station=1,hex_block=[0],hex_open=[5]);
+//make_map_tile(hex="A03",tile_type="B", blocker="NYC",cost="$80",large_station=1,home_company="Eire",small_station=1,hex_block=[3],hex_open=[4]);
+//make_map_tile(hex="B02",tile_type="B", blocker="PRR",cost="",large_station=0,home_company="C&O",small_station=2,hex_block=[],hex_open=[1,2]);
 
 //put_value("100",00);
 //put_tilenr("999");

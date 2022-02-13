@@ -1,4 +1,4 @@
-include <18xx tiles basic functions.scad>
+include <../tiles/18xx tiles basic functions.scad>
 hex("Yellow");
 put_value_blue("NY",-30);
 translate([hex_size/3,hex_size/2,0]) single_city([]);
