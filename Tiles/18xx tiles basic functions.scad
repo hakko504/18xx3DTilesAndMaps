@@ -218,7 +218,7 @@ module large_station_circle(){
 // large_station - zero, one or two
 // small_stations - zero, one or two
 // note that not all combinations of small & large stations is legal
-module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,home_company="",small_station=0,hex_block,hex_open){
+module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,home_company="",small_station=0,hex_block=[],hex_open=[]){
         // define a couple of help points for borders
         angles=[ for (i = [0:6]) i*360/6 ];
         r_o=  hex_size+2*width;
@@ -230,8 +230,6 @@ module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,h
         // move to right place
         y_pos=ord("A") - ord(hex[0]);
         x_pos=10*(ord(hex[1])-ord("0"))+ord(hex[2])-ord("0");
-//        echo("y_pos ",y_pos);
-//        echo("x_pos ",x_pos);
         translate([x_pos*(hex_size+2*width),1.5*y_pos*(hex_size+2*width)/ sin(angles[1]),0]) rotate([0,0,-30]) union(){ for(r=hex_block){
             p=[outer_coord[r],outer_coord[r+1],inner_coord[r+1],inner_coord[r]];
             linear_extrude(4) polygon(points=p);

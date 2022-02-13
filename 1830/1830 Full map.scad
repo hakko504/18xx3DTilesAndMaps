@@ -2,17 +2,17 @@ include <../Tiles/18xx tiles basic functions.scad>
 
 module make_map_top_left(){
 make_map_tile(hex="C07");
-make_map_tile(hex="D02");
-make_map_tile(hex="D04");
-make_map_tile(hex="D06");
+make_map_tile(hex="D02",large_station=1,tile_type="Fixed");
+make_map_tile(hex="D04",small_station=1);
+make_map_tile(hex="D06",cost="$80");
 make_map_tile(hex="D08");
 make_map_tile(hex="E03");
-make_map_tile(hex="E05");
-make_map_tile(hex="E07");
-make_map_tile(hex="F02");
-make_map_tile(hex="F04");
-make_map_tile(hex="F06");
-make_map_tile(hex="F08");
+make_map_tile(hex="E05",tile_type="OO",large_station=2,cost="$80");
+make_map_tile(hex="E07",small_station=1,hex_block=[5]);
+make_map_tile(hex="F02",tile_type="Red");
+make_map_tile(hex="F04",large_station=1,cost="$80");
+make_map_tile(hex="F06",large_station=1,tile_type="Fixed",home_company="C&O");
+make_map_tile(hex="F08",hex_block=[2]);
 }
 module make_map_bottom_left(){
 make_map_tile(hex="G03");
@@ -111,7 +111,7 @@ make_map_tile(hex="I17");
 make_map_tile(hex="I19");
 }
 //make_map_top_left();
-//make_map_bottom_left();
+make_map_bottom_left();
 //make_map_top_center();
 //make_map_center();
 //make_map_bottom_center();
