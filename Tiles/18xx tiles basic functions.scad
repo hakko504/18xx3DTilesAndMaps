@@ -293,7 +293,7 @@ module square_token(name){
 
 module stack_token(name){
     difference() {
-        cylinder(5,token_size);
+        cylinder(5,r=token_size);
         translate([0,0,4]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
     }
 }
@@ -312,7 +312,7 @@ module stack_square_token(name){
     }
 }
 
-module make_token_array(name,type="standard",map_tokens=0,stack_tokens=0){
+module make_token_array(name,map_tokens=0,stack_tokens=0,type="standard"){
     for(i=[1:map_tokens]){
         translate([i*(2*city_size+3*width),0,0]) {
             if (type=="thin"||type=="th"||type=="t"){
