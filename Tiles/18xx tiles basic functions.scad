@@ -199,10 +199,6 @@ module small_town_sharp_curve(r=0){
     }
 }
 
-module thin_token(name){
-    linear_extrude(2) circle(token_size);
-    translate([0,0,2]) linear_extrude(1) text(name,token_size/2,"Arial:style=Bold",valign="center",halign="center");
-}
 
 
 module large_station_circle(){
@@ -278,10 +274,25 @@ module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,h
         }
     }
 }
-//make_map_tile(hex="A01",tile_type="B", blocker="BO",cost="$120",large_station=2,home_company="NYNH",small_station=1,hex_block=[0],hex_open=[5]);
-//make_map_tile(hex="A03",tile_type="B", blocker="NYC",cost="$80",large_station=1,home_company="Eire",small_station=1,hex_block=[3],hex_open=[4]);
-//make_map_tile(hex="B02",tile_type="B", blocker="PRR",cost="",large_station=0,home_company="C&O",small_station=2,hex_block=[],hex_open=[1,2]);
 
+module thin_token(name){
+    linear_extrude(2) circle(token_size);
+    translate([0,0,2]) linear_extrude(1) text(name,token_size/2,"Arial:style=Bold",valign="center",halign="center");
+}
+
+module standard_token(name){
+    cylinder(2,token_size,city_size);
+    translate([0,0,2]) cylinder(1,city_size,city_size+width/2);
+    translate([0,0,3]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+}
+module square_token(name){
+    cylinder(2,token_size,city_size);
+    translate([0,0,2.5]) cube([2*city_size,2*city_size,1],center=true);
+    translate([0,0,3]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+}
+
+
+//square_token("NYNH");
 //put_value("100",00);
 //put_tilenr("999");
 //quad_city();
