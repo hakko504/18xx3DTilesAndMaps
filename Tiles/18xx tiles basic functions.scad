@@ -291,6 +291,52 @@ module square_token(name){
     translate([0,0,3]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
 }
 
+module stack_token(name){
+    difference() {
+        cylinder(5,token_size);
+        translate([0,0,4]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+    }
+}
+
+module stack_thin_token(name){
+    difference() {
+        cylinder(3.6,token_size);
+        translate([0,0,2.8]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+    }
+}
+
+module stack_square_token(name){
+    difference() {
+        translate([0,0,2.5]) cube([2*token_size,2*token_size,5],center=true);
+        translate([0,0,4]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+    }
+}
+
+module make_token_array(name,type="standard",map_tokens=0,stack_tokens=0){
+    for(i=[1:map_tokens]){
+        translate([i*(2*city_size+3*width),0,0]) {
+            if (type=="thin"||type=="th"||type=="t"){
+                thin_token(name);
+            } else if(type=="square"||type=="sq"||type=="q"){
+                square_token(name);
+            } else {
+                standard_token(name);
+            }
+        }
+    }
+    for(i=[1:stack_tokens]){
+        translate([i*(2*city_size+3*width),(2*city_size+3*width),0]) {
+            if (type=="thin"||type=="th"||type=="t"){
+                stack_thin_token(name);
+            } else if(type=="square"||type=="sq"||type=="q"){
+                stack_square_token(name);
+            } else {
+                stack_token(name);
+            }
+        }
+    }
+    
+}
 
 //square_token("NYNH");
 //put_value("100",00);
