@@ -1,4 +1,4 @@
-include <18xx tiles basic functions.scad>
+include <../tiles/18xx tiles basic functions.scad>
 hex("Blue");
 small_town_sharp_curve(4);
 put_tilenr("F24");

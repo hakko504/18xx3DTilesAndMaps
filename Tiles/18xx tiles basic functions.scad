@@ -199,33 +199,146 @@ module small_town_sharp_curve(r=0){
     }
 }
 
+
+
+module large_station_circle(){
+    difference(){
+        translate([0,0,1]) linear_extrude(1) circle(city_size);
+        translate([0,0,1]) linear_extrude(1) circle(city_size-width);
+    }
+}
+// tile_type - B,NY,C,Y, etc.
+// blocker - if a private blocks the tile, put short name of private here
+// cost - cost to put a tile here
+// home company - name of company with home station in the tile
+// large_station - zero, one or two
+// small_stations - zero, one or two
+// note that not all combinations of small & large stations is legal
+module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,home_company="",small_station=0,hex_block=[],hex_open=[]){
+        // define a couple of help points for borders
+        angles=[ for (i = [0:6]) i*360/6 ];
+        r_o=  hex_size+2*width;
+        r_i=  hex_size+  width;
+        outer_coords=[ for (th=angles) [r_o*cos(th), r_o*sin(th)] ];
+        inner_coords=[ for (th=angles) [r_i*cos(th), r_i*sin(th)] ];
+        outer_coord=outer_coords / sin(angles[1]);
+        inner_coord=inner_coords / sin(angles[1]);
+        // move to right place
+        y_pos=ord("A") - ord(hex[0]);
+        x_pos=10*(ord(hex[1])-ord("0"))+ord(hex[2])-ord("0");
+        translate([x_pos*(hex_size+2*width),1.5*y_pos*(hex_size+2*width)/ sin(angles[1]),0]) rotate([0,0,-30]) union(){ for(r=hex_block){
+            p=[outer_coord[r],outer_coord[r+1],inner_coord[r+1],inner_coord[r]];
+            linear_extrude(4) polygon(points=p);
+        }
+        difference(){
+            //base hex
+            linear_extrude(2) regular_polygon(6,hex_size+2*width);
+            translate([0,0,1.5]) linear_extrude(1) regular_polygon(6,hex_size+width);
+            for(r=hex_open){
+                p=[outer_coord[r],outer_coord[r+1],inner_coord[r+1],inner_coord[r]];
+                translate([0,0,1.5]) linear_extrude(4) polygon(points=p);
+            }
+            put_tilenr(hex);
+            rotate([0,0,60]) translate([0,hex_size-city_size,1]) rotate([0,0,-30]) text_handler(tile_type);
+            rotate([0,0,120]) translate([0,hex_size-city_size,1]) rotate([0,0,-90]) text_handler(blocker);
+            rotate([0,0,-60]) translate([0,hex_size-city_size,1]) rotate([0,0,90]) text_handler(cost);
+            if((large_station==2)||((large_station==1)&&(small_station==1))) {
+                //put large_station top right, with home_company if available
+                translate([0,hex_size-city_size,0]) large_station_circle();
+                translate([0,hex_size-city_size,1]) rotate([0,0,30]) text_handler(home_company);
+                if(large_station==2){
+                    translate([0,-hex_size+city_size,0]) large_station_circle();
+                }
+                else {
+                    translate([0,-hex_size+city_size,0]) small_town();
+                }
+            }
+            else if(large_station==1){
+                //put_large station center, with home_company if available
+                large_station_circle();
+                translate([0,0,1]) rotate([0,0,30]) text_handler(home_company);
+            }
+            else if(small_station==2){
+                // put home_company center if available
+                // put small station top right and bottom left
+                translate([0,0,1]) rotate([0,0,30]) text_handler(home_company);
+                translate([0, hex_size-city_size-width,0]) small_town();
+                translate([0,-hex_size+city_size+width,0]) small_town();
+            }
+            else if(small_station==1){
+                // put home_company top_left if available
+                // put small station center
+                translate([0,hex_size-city_size-width,1]) rotate([0,0,30]) text_handler(home_company);
+                small_town();
+            }
+        }
+    }
+}
+
 module thin_token(name){
     linear_extrude(2) circle(token_size);
     translate([0,0,2]) linear_extrude(1) text(name,token_size/2,"Arial:style=Bold",valign="center",halign="center");
 }
 
-// tile_type - B,NY,C,Y, etc.
-// blocker - if a private blocks the tile, put short name of private here
-// cost - cost to put a tile here
-// large_station - one or two
-// home company - name of company with home station in the tile
-// small_stations - one or two
-module make_map_tile(hex="A01",tile_type="",blocker="",cost="",home_company="",large_station=0,small_stations=0){
-    // move to right place
-//    translate([f(hex),g(hex),0])
-        difference(){
-            //base hex
-            linear_extrude(2.5) regular_polygon(6,hex_size+2*width);
-            translate([0,0,2]) linear_extrude(1) regular_polygon(6,hex_size);
-            put_tilenr(hex);
-            rotate([0,0,60]) translate([0,0.8*hex_size,1]) rotate([0,0,0]) text_handler(tile_type);
-            rotate([0,0,120]) translate([0,0.8*hex_size,1]) rotate([0,0,-60]) text_handler(blocker);
-            rotate([0,0,-60]) translate([0,0.7*hex_size,1]) rotate([0,0,120]) text_handler(cost);
-        }
-
+module standard_token(name){
+    cylinder(2,token_size,city_size);
+    translate([0,0,2]) cylinder(1,city_size,city_size+width/2);
+    translate([0,0,3]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
 }
-make_map_tile(tile_type="B", blocker="BO",cost="$120");
+module square_token(name){
+    cylinder(2,token_size,city_size);
+    translate([0,0,2.5]) cube([2*city_size,2*city_size,1],center=true);
+    translate([0,0,3]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+}
 
+module stack_token(name){
+    difference() {
+        cylinder(5,r=token_size);
+        translate([0,0,4]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+    }
+}
+
+module stack_thin_token(name){
+    difference() {
+        cylinder(3.6,token_size);
+        translate([0,0,2.8]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+    }
+}
+
+module stack_square_token(name){
+    difference() {
+        translate([0,0,2.5]) cube([2*token_size,2*token_size,5],center=true);
+        translate([0,0,4]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+    }
+}
+
+module make_token_array(name,map_tokens=0,stack_tokens=0,type="standard"){
+    for(i=[1:map_tokens]){
+        translate([i*(2*city_size+3*width),0,0]) {
+            if (type=="thin"||type=="th"||type=="t"){
+                thin_token(name);
+            } else if(type=="square"||type=="sq"||type=="q"){
+                square_token(name);
+            } else {
+                standard_token(name);
+            }
+        }
+    }
+    for(i=[1:stack_tokens]){
+        translate([i*(2*city_size+3*width),(2*city_size+3*width),0]) {
+            if (type=="thin"||type=="th"||type=="t"){
+                stack_thin_token(name);
+            } else if(type=="square"||type=="sq"||type=="q"){
+                stack_square_token(name);
+            } else {
+                stack_token(name);
+            }
+        }
+    }
+    
+}
+
+//square_token("NYNH");
 //put_value("100",00);
 //put_tilenr("999");
 //quad_city();
