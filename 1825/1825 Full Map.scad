@@ -23,7 +23,6 @@ module make_map_U1(){
     make_map_tile(hex="Y13",tile_type="Fixed",large_station=1);
     make_map_tile(hex="Y17",tile_type="Fixed");
     make_map_tile(hex="Y19",tile_type="Fixed");
-    
     make_map_tile(hex="X08");
     make_map_tile(hex="X10");
     make_map_tile(hex="X12");
@@ -60,7 +59,7 @@ module make_map_U1(){
     make_map_tile(hex="R08");
     
 }
-module make_map_R1(){
+module make_map_R1S(){
     make_map_tile(hex="V06",tile_type="Fixed",large_station=1);
     make_map_tile(hex="U01",tile_type="Fixed",large_station=1);
     make_map_tile(hex="U03");
@@ -69,6 +68,9 @@ module make_map_R1(){
     make_map_tile(hex="T02",large_station=1);
     make_map_tile(hex="T04");
     make_map_tile(hex="T06",cost="$100");
+    
+}
+module make_map_R1N(){
     make_map_tile(hex="S05",small_station=1);
     make_map_tile(hex="S07",cost="$100");
     make_map_tile(hex="R06");
@@ -76,8 +78,9 @@ module make_map_R1(){
     make_map_tile(hex="Q07",cost="$100");
     make_map_tile(hex="P04",tile_type="Fixed",large_station=1);
     make_map_tile(hex="P06",cost="$40");
-    
 }
-//make_map_R1();
+
+//make_map_R1S();
+//make_map_R1N();
 //make_map_R2();
 make_map_U1();
