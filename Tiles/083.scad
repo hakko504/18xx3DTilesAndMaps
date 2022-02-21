@@ -1,5 +1,5 @@
 include <18xx tiles basic functions.scad>
-hex("Brown");
+hex("green");
 put_tilenr("83");
 light_curve(r=1);
 sharp_curve(r=0);

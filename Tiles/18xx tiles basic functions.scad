@@ -5,8 +5,8 @@
 // Using values above 13*hex_size/38 (default) for token size may
 // cause cities to grow outside the hex or cover values, 
 // tile names (OO/Y/C etc.) or tile numbers.
-hex_size=50/2; 
-width=2/2; 
+hex_size=38/2; 
+width=1/2; 
 token_size=13/2;
 
 /* This one is NOT inteded to be changed, but if you want a tighter fit
