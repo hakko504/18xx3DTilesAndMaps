@@ -98,43 +98,47 @@ module light_curve_bridge(r=0){
 }
 
 
-module single_city(v=0){
+module single_city(v=0,home_company=""){
         difference(){union(){for(r= v) half_line(r);
-        translate([0,0,1]) linear_extrude(3) circle(city_size+width);}
+        translate([0,0,1]) linear_extrude(3) circle(city_size+width);
+        }
+        translate([0,0,1.5]) text_handler(home_company);
         translate([0,0,2]) linear_extrude(3) circle(city_size);
     }
 }
 
-module double_city(v=0){
+module double_city(v=0,home_company=""){
     difference(){union(){for(r= v) half_line(r);
         translate([-city_size-0.5*width,-city_size-width,1]) cube([2*city_size+width,2*city_size+2*width,2]);
         translate([-city_size-0.5*width,0,1]) linear_extrude(3) circle(city_size+width);
         translate([+city_size+0.5*width,0,1]) linear_extrude(3) circle(city_size+width);
         }
         translate([+city_size+0.5*width,0,2]) linear_extrude(3) circle(city_size);
+        translate([-city_size-0.5*width,0,1.5]) text_handler(home_company);
         translate([-city_size-0.5*width,0,2]) linear_extrude(3) circle(city_size);
     }  
 }
 
-module triple_city(v=0){
+module triple_city(v=0,home_company=""){
    tc=(city_size+0.5*width)/cos(30);
     difference(){union(){for(r=v) half_line(r);
         translate([0,0,1]) linear_extrude(3) minkowski() {regular_polygon(3,tc);
             circle(city_size+width);}
             }
         translate([tc*sin(90),tc*cos(90),2]) linear_extrude(3) circle(city_size);    
+        translate([tc*sin(90),tc*cos(90),1.5]) text_handler(home_company);
         translate([tc*sin(210),tc*cos(210),2]) linear_extrude(3) circle(city_size);
         translate([tc*sin(330),tc*cos(330),2]) linear_extrude(3) circle(city_size);}
 }
-
-module quad_city(v=0){
+module quad_city(v=0,home_company=""){
    qc=(city_size+0.5*width);
 
        difference(){union(){for(r=v) half_line(r);
         translate([0,0,1]) rotate([0,0,45]) linear_extrude(3) minkowski() {regular_polygon(4,qc*sqrt(2));
             circle(city_size+width);}
             }
-        translate([qc,qc,2]) linear_extrude(3) circle(city_size);    
+        translate([qc,qc,2]) linear_extrude(3) circle(city_size);
+        translate([qc,qc,1.5]) text_handler(home_company);    
         translate([qc,-qc,2]) linear_extrude(3) circle(city_size);
         translate([-qc,qc,2]) linear_extrude(3) circle(city_size);
         translate([-qc,-qc,2]) linear_extrude(3) circle(city_size);}
@@ -336,6 +340,18 @@ module make_token_array(name,map_tokens=0,stack_tokens=0,type="standard"){
         }
     }
     
+}
+
+module six_city(town_size=11.5){
+    scale_factor=town_size/(2*city_size);
+    echo (str(scale_factor));
+    sf=[scale_factor,scale_factor,1];
+    for(r=[0:5]) {
+        rotate([0,0,60*r]) union() {
+            translate([0,hex_size-town_size/2-1.5*width,0]) scale(sf) single_city([]);
+            quarter_line();
+        }
+    };
 }
 
 //square_token("NYNH");
