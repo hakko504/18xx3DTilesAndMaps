@@ -5,7 +5,7 @@
 // Using values above 13*hex_size/38 (default) for token size may
 // cause cities to grow outside the hex or cover values, 
 // tile names (OO/Y/C etc.) or tile numbers.
-hex_size=38/2; 
+hex_size=36/2; 
 width=1/2; 
 token_size=13/2;
 
@@ -16,6 +16,13 @@ token_size=13/2;
  * in the city hole. A looser fit is acheived by changing it to 0.75 or 1.
 */
 city_size=token_size+0.5;
+
+// Tiles with 6 tokenable cities (e.g. 1825 London: V20, 032,& 048) may be
+// hard to fit the standard size of tokens in. The folloing formula will
+// ensure they fit the board properly. Remember to print
+// one token per company smaller than the others to fit said tile
+
+town_size=min(city_size, (11.5/38)*hex_size);
 
  module regular_polygon(order, r=1){
         angles=[ for (i = [1:order]) i*(360/order) ];
@@ -316,7 +323,13 @@ module stack_square_token(name){
     }
 }
 
-module make_token_array(name,map_tokens=0,stack_tokens=0,type="standard"){
+module small_token(name){
+    cylinder(2,town_size-width,town_size);
+    translate([0,0,2]) cylinder(1,town_size,town_size+width/2);
+    translate([0,0,3]) linear_extrude(1) text(name,town_size/2,"Arial:style=Bold",valign="center",halign="center");
+}
+
+module make_token_array(name,map_tokens=0,stack_tokens=0,small_token=0,type="standard"){
     for(i=[1:map_tokens]){
         translate([i*(2*city_size+3*width),0,0]) {
             if (type=="thin"||type=="th"||type=="t"){
@@ -339,16 +352,18 @@ module make_token_array(name,map_tokens=0,stack_tokens=0,type="standard"){
             }
         }
     }
-    
+    for(i=[1:small_tokens]){
+        translate([i*(2*city_size+3*width),(4*city_size+6*width),0]) small_token(name);
+    }
 }
 
-module six_city(town_size=11.5){
-    scale_factor=town_size/(2*city_size);
+module six_city(){
+    scale_factor=town_size/city_size;
     echo (str(scale_factor));
     sf=[scale_factor,scale_factor,1];
     for(r=[0:5]) {
         rotate([0,0,60*r]) union() {
-            translate([0,hex_size-town_size/2-1.5*width,0]) scale(sf) single_city([]);
+            translate([0,hex_size-town_size-1.5*width,0]) scale(sf) single_city([]);
             quarter_line();
         }
     };
