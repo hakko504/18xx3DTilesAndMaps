@@ -369,6 +369,16 @@ module six_city(){
     };
 }
 
+
+module n_city(c=0){
+    for (r=c) {
+        rotate([0,0,60*r]) union() {
+            translate([0,hex_size-city_size-4*width,0]) single_city([]);
+            quarter_line();
+        }   ;
+    };
+}
+
 //square_token("NYNH");
 //put_value("100",00);
 //put_tilenr("999");
