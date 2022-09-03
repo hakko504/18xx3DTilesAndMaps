@@ -5,9 +5,9 @@
 // Using values above 13*hex_size/38 (default) for token size may
 // cause cities to grow outside the hex or cover values, 
 // tile names (OO/Y/C etc.) or tile numbers.
-hex_size=36/2; 
+hex_size=38/2; 
 width=1/2; 
-token_size=13/2;
+token_size=10.5/2;
 
 /* This one is NOT inteded to be changed, but if you want a tighter fit
  * between tokens and the city holes, then you can change it to 0.3 or
@@ -15,7 +15,7 @@ token_size=13/2;
  * tolerances of your printer you might make it very hard to put a token
  * in the city hole. A looser fit is acheived by changing it to 0.75 or 1.
 */
-city_size=token_size+0.5;
+city_size=token_size+width;
 
 // Tiles with 6 tokenable cities (e.g. 1825 London: V20, 032,& 048) may be
 // hard to fit the standard size of tokens in. The folloing formula will
@@ -293,14 +293,14 @@ module make_map_tile(hex="A01",tile_type="",blocker="",cost="",large_station=0,h
 }
 
 module thin_token(name){
-    linear_extrude(2) circle(token_size);
-    translate([0,0,2]) linear_extrude(1) text(name,token_size/2,"Arial:style=Bold",valign="center",halign="center");
+    cylinder(2,r=token_size);
+    translate([0,0,1.9]) linear_extrude(1.1) text(name,token_size/2,"Arial:style=Bold",valign="center",halign="center");
 }
 
 module standard_token(name){
     cylinder(2,token_size,city_size);
-    translate([0,0,2]) cylinder(1,city_size,city_size+width/2);
-    translate([0,0,3]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
+    translate([0,0,2]) cylinder(2,city_size,city_size+width/2);
+    translate([0,0,3.99]) linear_extrude(1.01) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
 }
 module square_token(name){
     cylinder(2,token_size,city_size);
@@ -317,7 +317,7 @@ module stack_token(name){
 
 module stack_thin_token(name){
     difference() {
-        cylinder(3.6,token_size);
+        cylinder(3.6,r=token_size);
         translate([0,0,2.8]) linear_extrude(1) text(name,city_size/2,"Arial:style=Bold",valign="center",halign="center");
     }
 }
@@ -331,12 +331,12 @@ module stack_square_token(name){
 
 module small_token(name){
     cylinder(2,town_size-width,town_size);
-    translate([0,0,2]) cylinder(1,town_size,town_size+width/2);
-    translate([0,0,3]) linear_extrude(1) text(name,town_size/2,"Arial:style=Bold",valign="center",halign="center");
+    translate([0,0,2]) cylinder(2,town_size,town_size+width/2);
+    translate([0,0,4]) linear_extrude(1) text(name,town_size/2,"Arial:style=Bold",valign="center",halign="center");
 }
 
-module make_token_array(name,map_tokens=0,stack_tokens=0,small_token=0,type="standard"){
-    for(i=[1:map_tokens]){
+module make_token_array(name,map_tokens=0,stack_tokens=0,small_tokens=0,type="standard"){
+    if (map_tokens>0) for(i=[1:map_tokens]){
         translate([i*(2*city_size+3*width),0,0]) {
             if (type=="thin"||type=="th"||type=="t"){
                 thin_token(name);
@@ -347,7 +347,7 @@ module make_token_array(name,map_tokens=0,stack_tokens=0,small_token=0,type="sta
             }
         }
     }
-    for(i=[1:stack_tokens]){
+    if (stack_tokens>0) for(i=[1:stack_tokens]){
         translate([i*(2*city_size+3*width),(2*city_size+3*width),0]) {
             if (type=="thin"||type=="th"||type=="t"){
                 stack_thin_token(name);
@@ -358,12 +358,16 @@ module make_token_array(name,map_tokens=0,stack_tokens=0,small_token=0,type="sta
             }
         }
     }
-    for(i=[1:small_tokens]){
+    if (small_tokens>0) for(i=[1:small_tokens]){
         translate([i*(2*city_size+3*width),(4*city_size+6*width),0]) small_token(name);
     }
 }
 
 module six_city(){
+    if(town_size<city_size) {
+        echo ("WARNING! Remember to print one small token for this tile");
+    };
+
     scale_factor=town_size/city_size;
     echo (str(scale_factor));
     sf=[scale_factor,scale_factor,1];
