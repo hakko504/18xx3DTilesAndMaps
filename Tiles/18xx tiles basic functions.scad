@@ -187,6 +187,12 @@ module small_town(dist=0){
     color("Brown") translate([0,dist,1]) linear_extrude(2) circle(4*width);
 }
 
+module small_town_single(r=0){
+    quarter_line(r);
+    rotate([0,0,r*60]) small_town(hex_size/2);
+}
+
+
 module small_town_straight(r=0,dist=0){
     rotate([0,0,r*60]) union() {    straight_line(0);
     small_town(dist);}
