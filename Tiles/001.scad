@@ -1,4 +1,4 @@
-include <18xx tiles basic functions.scad>
+include <../Scripts/18xx tiles basic functions.scad>
 
 small_town_light_curve2(r=0);
 small_town_light_curve2(r=3);

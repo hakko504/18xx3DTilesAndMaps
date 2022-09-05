@@ -2,7 +2,7 @@
 //any tokens for this tile should be width smaller than the
 //town_size chosen
 
-include <18xx tiles basic functions.scad>
+include <../Scripts/18xx tiles basic functions.scad>
 hex("Brown");
 put_tilenr(" 32");
 difference(){

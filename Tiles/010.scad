@@ -1,4 +1,4 @@
-include <18xx tiles basic functions.scad>
+include <../Scripts/18xx tiles basic functions.scad>
 hex("Green");
 put_tilenr("10");
 rotate([0,0,60])translate([0,0.5*hex_size,0]) single_city(v=[]);

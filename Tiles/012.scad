@@ -1,4 +1,4 @@
-include <18xx tiles basic functions.scad>
+include <../Scripts/18xx tiles basic functions.scad>
 hex();
 put_tilenr("12");
 single_city(v=[1,2,3]);

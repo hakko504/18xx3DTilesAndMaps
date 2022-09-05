@@ -1,4 +1,4 @@
-include <18xx tiles basic functions.scad>
+include <../Scripts/18xx tiles basic functions.scad>
 hex("Green");
 put_tilenr("66");
 put_value("50",-30);

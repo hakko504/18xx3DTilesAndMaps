@@ -1,4 +1,4 @@
-include <18xx tiles basic functions.scad>
+include <../Scripts/18xx tiles basic functions.scad>
 hex("Brown");
 put_tilenr("70");
 light_curve_bridge(r=4);
