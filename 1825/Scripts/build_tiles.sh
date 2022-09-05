@@ -1,7 +1,7 @@
 #!/bin/bash
-echo Building 1825 Tiles"
+echo "Building 1825 Tiles"
 cd ../Tiles
-for i in *.scad; do
+for i in *.scad ; do
   echo "Building $i"
   openscad "$i" -o "${i%.scad}.stl"
 done
