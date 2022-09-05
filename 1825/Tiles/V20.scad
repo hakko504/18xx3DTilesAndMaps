@@ -2,7 +2,7 @@
 //any tokens for this tile should be width smaller than the
 //town_size chosen
 
-include <../Tiles/18xx tiles basic functions.scad>
+include <../../Scripts/18xx tiles basic functions.scad>
 hex("Green");
 put_tilenr(" V20");
 difference(){
