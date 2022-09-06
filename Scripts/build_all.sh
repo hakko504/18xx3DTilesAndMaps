@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Building Everything"
-#./build_other.sh
-#./build_tiles.sh
+./build_other.sh
+./build_tiles.sh
 cd ..
 ls 18*/Scripts/
 pwd
