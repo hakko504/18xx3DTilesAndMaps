@@ -6,7 +6,7 @@ for i in *.scad ; do
   openscad "$i" -o "${i%.scad}.stl"
 done
 cp ../../Tiles/*.stl .
-mkdir -p Yellow Green Gray Blue StripedGreenBrown StripedBrownBlue StripedGrayBrown
+mkdir -p Yellow Green Gray Blue Brown StripedGreenBrown StripedBrownBlue StripedGrayBrown
 #
 # D1
 #
