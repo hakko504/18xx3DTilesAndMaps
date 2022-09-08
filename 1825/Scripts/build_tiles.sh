@@ -5,6 +5,7 @@ for i in *.scad ; do
   echo "Building $i"
   openscad "$i" -o "${i%.scad}.stl"
 done
+cp ../../Tiles/*.stl .
 mkdir -p Yellow Green Gray Blue StripedGreenBrown StripedBrownBlue StripedGrayBrown
 #
 # D1
