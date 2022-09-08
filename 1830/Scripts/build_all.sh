@@ -4,4 +4,6 @@ echo "Building 1830"
 ./build_tiles.sh &
 ./build_tokens.sh &
 wait
-zip 1830.zip ../*/*.stl
+zip 1830.zip ../*/*.stl ../Tiles/*/*.stl
+rm -rf ../*/*.stl ../Tiles/*/*.stl
+
