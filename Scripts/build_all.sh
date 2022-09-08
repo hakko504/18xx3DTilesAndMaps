@@ -5,7 +5,7 @@ echo "Building Everything"
 cd ..
 ls 18*/Scripts/
 pwd
-for i in 18* ;do
+for i in 18*/ ;do
     echo $i
     pushd $i/Scripts/
     ./build_all.sh
